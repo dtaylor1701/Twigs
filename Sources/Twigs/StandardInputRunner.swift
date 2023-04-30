@@ -5,8 +5,6 @@ import ArgumentParser
 /// Mark the conforming type as `@main` to designate the `commandType` to accept standard input as its first argument.
 public protocol StandardInputRunner {
     associatedtype Command: AsyncParsableCommand
-
-    static var commandType: Command.Type { get }
 }
 
 public extension StandardInputRunner {
@@ -16,7 +14,7 @@ public extension StandardInputRunner {
         if let standardInput {
             arguments.insert(standardInput, at: 0)
         }
-        var command = commandType.parseOrExit(arguments)
+        var command = Command.parseOrExit(arguments)
         try await command.run()
     }
 
